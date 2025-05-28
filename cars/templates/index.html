@@ -3218,26 +3218,36 @@ footer::before {
         </div>
         <div class="container">
             <h2 class="section-title reveal fade-bottom" data-key="featuredCars">Featured Cars</h2>
-            <form method="POST" action="{% url 'filter' %}">
-                {% csrf_token %}
-                <div class="filter-options">
-                    <select id="brand-filter" name="brand">
-                        <option value="all" data-key="allBrands">All Brands</option>
-                        {% for i in brands %}
-                            <option value="{{ i.id }}">{{ i.name }}</option>
-                        {% endfor %}
-                    </select>
+   <form method="POST" action="{% url 'filter' %}" id="filter-form">
+    {% csrf_token %}
+    <div class="filter-options">
+        <select id="brand-filter" name="brand">
+            <option value="-">Filter</option>
+            <option value="all" data-key="allBrands">All Brands</option>
+            {% for i in brands %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
 
-                    <select id="price-filter" name="price">
-                        <option value="all" data-key="allPrices">All Prices</option>
-                        <option value="low" data-key="lowPrice">$0 - $20,000</option>
-                        <option value="medium" data-key="mediumPrice">$20,000 - $50,000</option>
-                        <option value="high" data-key="highPrice">$50,000+</option>
-                    </select>
+        <select id="price-filter" name="price">
+            <option value="all" data-key="allPrices">All Prices</option>
+            <option value="low" data-key="lowPrice">$0 - $20,000</option>
+            <option value="medium" data-key="mediumPrice">$20,000 - $50,000</option>
+            <option value="high" data-key="highPrice">$50,000+</option>
+        </select>
+    </div>
+</form>
 
-                    <button type="submit">Filter</button>
-                </div>
-            </form>
+<script>
+    document.getElementById('brand-filter').addEventListener('change', function () {
+        document.getElementById('filter-form').submit();
+    });
+
+    document.getElementById('price-filter').addEventListener('change', function () {
+        document.getElementById('filter-form').submit();
+    });
+</script>
+
 
             <div class="cars-grid">
             {%for car in cars%}
